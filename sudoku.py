@@ -10,8 +10,8 @@ surface = pygame.display.set_mode((1200, 900))
 pygame.display.set_caption('Sudoku')
 
 pygame.font.init()
-game_font = pygame.font.SysFont('Comic Sans MS', 50)
-game_font2 = pygame.font.SysFont('Comic Sans MS', 25)
+game_font = pygame.font.SysFont('Arial', 50)
+game_font2 = pygame.font.SysFont('Arial', 25)
 
 grid = Grid(pygame, game_font)
 running = True
@@ -30,6 +30,12 @@ while running:
         if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_SPACE and grid.win:
                 grid.restart()
+            if not grid.win and grid.selected_cell is not None:
+                if pygame.K_1 <= event.key <= pygame.K_9:
+                    number = event.key - pygame.K_0
+                    grid.set_cell_value(grid.selected_cell, number)
+                elif event.key == pygame.K_BACKSPACE or event.key == pygame.K_DELETE:
+                    grid.set_cell_value(grid.selected_cell, 0)
 
     # clear the window surface to black
     surface.fill((0, 0, 0))
